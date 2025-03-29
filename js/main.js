@@ -17,34 +17,57 @@ renderer.setClearColor(0xffffff, 1); // Fixed clear color
 document.body.appendChild(renderer.domElement);
 
 // Lights
-let ambientLight = new THREE.AmbientLight(0x101010, 1.0);
+const ambientLight = new THREE.AmbientLight(0x101010, 1.0);
 scene.add(ambientLight);
 
-let sunlight = new THREE.DirectionalLight(0xdddddd, 1.0); // Fixed light color
+const sunlight = new THREE.DirectionalLight(0xdddddd, 1.0); // Fixed light color
 sunlight.position.y = 15;
 scene.add(sunlight);
 
 // Cube
-let geometry = new THREE.BoxGeometry(1, 1, 1);
-let material = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Fixed color
-let mesh = new THREE.Mesh(geometry, material);
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 }); // Fixed color
+const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
 // Event Listener for Key Presses
 document.addEventListener("keydown", onKeyDown, false);
 
-let floorTexture=new THREE.TextureLoader().load("img/Table.jpg")
+const floorTexture=new THREE.TextureLoader().load("img/Table.jpg")
 
-let planeGeometry = new THREE.PlaneGeometry(50, 50);
-let planeMaterial = new THREE.MeshBasicMaterial({
+const planeGeometry = new THREE.PlaneGeometry(50, 50);
+const planeMaterial = new THREE.MeshBasicMaterial({
     map:floorTexture,
     side: THREE.DoubleSide,
 });
 
-let floorPlane = new THREE.Mesh(planeGeometry, planeMaterial);
+const floorPlane = new THREE.Mesh(planeGeometry, planeMaterial);
 floorPlane.rotation.x = -Math.PI / 2; // Rotate plane to lay flat
-floorPlane.position.y = -0.5; // Move slightly below the cube
+floorPlane.position.y = -Math.PI; // Move slightly below the cube
 scene.add(floorPlane);
+
+//Create the walls
+const wallGroup=new THREE.Group();
+scene.add(wallGroup);
+
+const frontWall=new THREE.Mesh(
+    new THREE.BoxGeometry(50,20,0.001),
+    new THREE.MeshBasicMaterial({color:'green'})
+);
+frontWall.position.z=-20;
+
+const leftWall=new THREE.Mesh(
+    new THREE.BoxGeometry(50,20,0.001),
+    new THREE.MeshBasicMaterial({
+        color:'red'
+    })
+)
+
+leftWall.rotation.y=Math.PI/2;
+leftWall.rotation.x=-20;
+
+wallGroup.add(frontWall,leftWall);
+
 
 function onKeyDown(event) {
     let moveSpeed = 0.1;
