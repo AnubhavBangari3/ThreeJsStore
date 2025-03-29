@@ -63,11 +63,39 @@ const leftWall=new THREE.Mesh(
     })
 )
 
-leftWall.rotation.y=Math.PI/2;
-leftWall.rotation.x=-20;
+leftWall.position.x = -25; // Move left
+leftWall.rotation.y = Math.PI / 2; // Face the room
 
-wallGroup.add(frontWall,leftWall);
+const rightWall=new THREE.Mesh(
+    new THREE.BoxGeometry(50,20,0.001),
+    new THREE.MeshBasicMaterial({
+        color:'yellow'
+    })
+)
+rightWall.position.x = 25; // Move to the right
+rightWall.rotation.y = -Math.PI / 2; // Rotate to face the front
 
+wallGroup.add(frontWall,leftWall,rightWall);
+
+for (let i = 0; i < wallGroup.children.length; i++) {
+    wallGroup.children[i].BBox = new THREE.Box3().setFromObject(wallGroup.children[i]);
+}
+
+
+//Create the ceiling
+const ceilingGeometry=new THREE.PlaneBufferGeometry(50,50);
+const celingMaterial=new THREE.MeshBasicMaterial(
+    {
+        color:"blue"
+    }
+);
+
+const ceilingPlane=new THREE.Mesh(ceilingGeometry,celingMaterial);
+
+ceilingPlane.rotation.x = Math.PI / 2; 
+ceilingPlane.position.y = 10; 
+
+scene.add(ceilingPlane);
 
 function onKeyDown(event) {
     let moveSpeed = 0.1;
