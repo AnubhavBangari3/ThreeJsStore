@@ -1,4 +1,7 @@
 // Initialize Scene
+// import * as THREE from 'three';
+// import * as STDLIB from 'three-stdlib';
+
 const scene = new THREE.Scene();
 
 // Camera
