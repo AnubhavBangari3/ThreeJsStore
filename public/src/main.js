@@ -40,15 +40,29 @@ document.addEventListener("keydown", onKeyDown, false);
 
 
 const textureLoader=new THREE.TextureLoader();
-const floorTexture=textureLoader.load("img/floor.jpeg")
+const floorTexture=textureLoader.load("img/floor2.jpg")
 floorTexture.wrapS=THREE.RepeatWrapping;
 floorTexture.wrapT=THREE.RepeatWrapping;
-floorTexture.repeat.set(20,20);
+//floorTexture.repeat.set(20,20);
+
+const wallColor=textureLoader.load("img/wall2.webp")
+
+const topColor=textureLoader.load("img/top.jpg")
 
 const planeGeometry = new THREE.PlaneGeometry(50, 50);
 const planeMaterial = new THREE.MeshBasicMaterial({
     map:floorTexture,
     side: THREE.DoubleSide,
+});
+
+const wallMaterial = new THREE.MeshBasicMaterial({
+    map:wallColor,
+    //side: THREE.DoubleSide,
+});
+
+const topMaterial = new THREE.MeshBasicMaterial({
+    map:topColor,
+    //side: THREE.DoubleSide,
 });
 
 const floorPlane = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -62,15 +76,13 @@ scene.add(wallGroup);
 
 const frontWall=new THREE.Mesh(
     new THREE.BoxGeometry(50,20,0.001),
-    new THREE.MeshBasicMaterial({color:'green'})
+    wallMaterial
 );
 frontWall.position.z=-20;
 
 const leftWall=new THREE.Mesh(
     new THREE.BoxGeometry(50,20,0.001),
-    new THREE.MeshBasicMaterial({
-        color:'red'
-    })
+    wallMaterial
 )
 
 leftWall.position.x = -25; // Move left
@@ -78,9 +90,7 @@ leftWall.rotation.y = Math.PI / 2; // Face the room
 
 const rightWall=new THREE.Mesh(
     new THREE.BoxGeometry(50,20,0.001),
-    new THREE.MeshBasicMaterial({
-        color:'yellow'
-    })
+    wallMaterial
 )
 rightWall.position.x = 25; // Move to the right
 rightWall.rotation.y = -Math.PI / 2; // Rotate to face the front
@@ -95,9 +105,7 @@ for (let i = 0; i < wallGroup.children.length; i++) {
 //Create the ceiling
 const ceilingGeometry=new THREE.PlaneBufferGeometry(50,50);
 const celingMaterial=new THREE.MeshBasicMaterial(
-    {
-        color:"blue"
-    }
+    topMaterial
 );
 
 const ceilingPlane=new THREE.Mesh(ceilingGeometry,celingMaterial);
@@ -133,6 +141,14 @@ const painting3 = createPainting(
 );
 painting3.rotation.y = Math.PI / 2;
 
+const painting7 = createPainting(
+    'artwork/3.webp', 
+    4, 
+    5, 
+    new THREE.Vector3(-24.9, 5, 5) // Left wall
+);
+painting7.rotation.y = Math.PI / 2;
+
 const painting5 = createPainting(
     'artwork/5.jpg', 
     4, 
@@ -142,23 +158,48 @@ const painting5 = createPainting(
 painting5.rotation.y = Math.PI / 2; // Face inward
 
 
+const painting8 = createPainting(
+    'artwork/5.jpg', 
+    4, 
+    5, 
+    new THREE.Vector3(-24.9, 5,15) // Left wall, slightly offset
+);
+painting8.rotation.y = Math.PI / 2; // Face inward
+
+
 const painting4 = createPainting(
     'artwork/4.webp', 
-    6, 
-    5, 
+    4, 
+    5,  
     new THREE.Vector3(24.9, 5, 0) // Right wall
 );
 painting4.rotation.y = -Math.PI / 2;
 
+const painting9 = createPainting(
+    'artwork/4.webp', 
+    4, 
+    5, 
+    new THREE.Vector3(24.9, 5, 5) // Right wall
+);
+painting9.rotation.y = -Math.PI / 2;
+
 const painting6 = createPainting(
     'artwork/6.jpg', 
-    6, 
-    5, 
+    4, 
+    5,  
     new THREE.Vector3(24.9, 5, 10) // Right wall
 );
 painting6.rotation.y = -Math.PI / 2;
 
-scene.add(painting1,painting2,painting3,painting4,painting5,painting6);
+const painting10 = createPainting(
+    'artwork/6.jpg', 
+    4, 
+    5, 
+    new THREE.Vector3(24.9, 5, 15) // Right wall
+);
+painting10.rotation.y = -Math.PI / 2;
+
+scene.add(painting1,painting2,painting3,painting4,painting5,painting6,painting7,painting8,painting9,painting10);
 //Painting end
 
 const controls=new THREE.PointerLockControls(camera,document.body);
